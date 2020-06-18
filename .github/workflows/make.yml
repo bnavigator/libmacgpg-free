@@ -10,8 +10,14 @@ jobs:
   build:
 
     runs-on: macos-latest
+    if: "!contains(github.event.head_commit.message, '[no-build]')"
 
     steps:
     - uses: actions/checkout@v2
     - name: Build
       run: make
+    - name: Upload compiled library
+      uses: actions/upload-artifact@v2
+      with:
+        name: org.gpgtools.Libmacgpg
+        path: build/Release/org.gpgtools.Libmacgpg.xpc/Contents/MacOS/org.gpgtools.Libmacgpg
